@@ -19,20 +19,19 @@ export const verifyToken = (
 ) => {
   const token = request?.header("Authorization");
 
-  if (token === "undefined") {
-    response.status(401).json({ type: "authError", message: "Access denied" });
-  } else if (token) {
-    try {
-      const decoded: DecodedToken = jwt.verify(
-        token,
-        process.env.JWT_SECRET as string
-      ) as DecodedToken;
-      request.userId = decoded.userId;
-      next();
-    } catch (error) {
-      response
-        .status(401)
-        .json({ type: "authError", message: "Invalid Token" });
-    }
+  if (!token)
+    return response
+      .status(401)
+      .json({ type: "authError", message: "Access denied" });
+
+  try {
+    const decoded: DecodedToken = jwt.verify(
+      token,
+      process.env.JWT_SECRET as string
+    ) as DecodedToken;
+    request.userId = decoded.userId;
+    next();
+  } catch (error) {
+    response.status(401).json({ type: "authError", message: "Invalid Token" });
   }
 };

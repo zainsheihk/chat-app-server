@@ -38,7 +38,6 @@ export const checkUser = async (
     next(error);
   }
 };
-
 export const createUser = async (
   req: Request,
   res: Response,
@@ -65,30 +64,4 @@ export const createUser = async (
     return res.status(500).json({ type: error.name, message: error.message });
   }
 };
-export const getUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const userId = req.userId;
-    if (userId) {
-      const currentUser = await prisma.user.findFirst({
-        where: {
-          id: Number(userId),
-        },
-      });
-      return res.json({ status: true, data: currentUser });
-    } else {
-      return res
-        .status(401)
-        .json({
-          status: false,
-          message: "You are not logged in, please provide token to gain access",
-        });
-    }
-  } catch (error: any) {
-    next();
-    return res.status(500).json({ type: error.name, message: error.message });
-  }
-};
+
