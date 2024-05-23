@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { prisma } from "../utils/prismaClient";
-import { UserType, userSchema } from "../utils/validation.schema";
+import { UserType, userSchema } from "../utils/validations/user.schema";
 import jwt from "jsonwebtoken";
 
 export const checkUser = async (
